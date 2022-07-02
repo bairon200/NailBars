@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms1="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="NailBars.Vistas.Login">
+    
+    <Grid BackgroundColor="Black">
+        <Grid Margin="20,80,20,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid VerticalOptions="Center"
+                  Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <forms1:AnimationView x:Name="animation"
+                                      Grid.Row="0"
+                                      Animation="login2.json"
+                                      HeightRequest="350"
+                                      WidthRequest="350"
+                                      AutoPlay="True"
+                                      RepeatMode="Infinite"
+                                      VerticalOptions="Center" />
+                <Label Grid.Row="1"
+                       Text="NailBars"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"
+                       FontSize="40"
+                       FontAttributes="Bold" />
+            </Grid>
+            <StackLayout Grid.Row="1">
+                <StackLayout Orientation="Horizontal">
+                    <Image WidthRequest="35"
+                           Source="https://i.ibb.co/RbCdzJc/add-user.png" />
+                    <Entry Placeholder="Correo"
+                           x:Name="UsuerLogin"
+                           PlaceholderColor="#7F7F7F"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           WidthRequest="400" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image WidthRequest="35"
+                           Source="https://i.ibb.co/ZL1kyQr/padlock.png" />
+                    <Entry Placeholder="Contraseña"
+                           x:Name="UserPassword"
+                           IsPassword="True"
+                           PlaceholderColor="#7F7F7F"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           WidthRequest="400" />
+                </StackLayout>
+                <Button Text="Iniciar" 
+                        TextColor="Black"
+                        BackgroundColor="#3A407A"
+                        Margin="0,30,0,0"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="30"
+                        x:Name="btniniciar"
+                       />
+                <Button Text="Crear Cuenta"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextTransform="None"
+                        x:Name="btncrearUser"
+                        Clicked="btncrearUser_Clicked_1"/>
+            </StackLayout>
+            <StackLayout HorizontalOptions="Center"
+                         Grid.Row="2"
+                         Margin="0,40,0,0"
+                         Orientation="Horizontal">
+                <Label Text="Una app de "
+                       HorizontalTextAlignment="Center"
+                       TextColor="#404040" />
+                <Label Text="NailBars"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#3A407A" />
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NailBars.Vistas.RegistroClientes"
+             NavigationPage.HasNavigationBar="False"
+             Visual="Material">
+    
+    
+    <Grid BackgroundColor="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="240" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Image Source="usuario.png"
+               Margin="0,20,0,0"
+               Grid.Row="0"
+               x:Name="imagenCelular"/>
+        <StackLayout Grid.Row="1"
+                     Margin="20"
+                     Orientation="Vertical">
+            <StackLayout Orientation="Horizontal" HeightRequest="50">
+                <Button Text="Subir Foto"
+                        BackgroundColor="#31C3A2"
+                        TextColor="White"
+                        CornerRadius="10"
+                        x:Name="btnagregarimagen"
+                        Clicked="btnagregarimagen_Clicked" />
+            </StackLayout>
+            <Entry TextColor="#7F7F7F"
+                   FontAttributes="Bold"
+                   PlaceholderColor="Black"
+                   Placeholder="Nombres" 
+                   x:Name="txtNombres"/>
+            <Entry TextColor="#7F7F7F"
+                   FontAttributes="Bold"
+                   PlaceholderColor="Black"
+                   Placeholder="Correo"
+                   x:Name="txtCorreo"/>
+            <Entry TextColor="#7F7F7F"
+                   FontAttributes="Bold"
+                   PlaceholderColor="Black"
+                   Placeholder="Contraseña"
+                   x:Name="txtContraseña" />
+            <Button Text="Crear Cuenta"
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    CornerRadius="10"
+                    WidthRequest="250"
+                    HorizontalOptions="Center"
+                    x:Name="btnCrearcuenta"
+                    Clicked="btnCrearcuenta_Clicked"/>
+        </StackLayout>
+        
+    </Grid>
+    
+    
+</ContentPage>
