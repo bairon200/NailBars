@@ -28,6 +28,9 @@ namespace NailBars.Vistas
         int contREstilista;
         int contador;
         string horaReserv;
+        string precio;
+
+
         List<string> horario = new List<string>();
         List<string> horiosvacio = new List<string>();
         MusuariosClientes infoUser = new MusuariosClientes();
@@ -40,10 +43,12 @@ namespace NailBars.Vistas
            
             mostrarestilistas();
 
+            fecReservacion.Date = new DateTime(1900,1,1);
+           
         }
 
 
-        public VistaReservaciones(string idUsuario, string Reservacion, MusuariosClientes dat)
+        public VistaReservaciones(string idUsuario, string Reservacion, MusuariosClientes dat,string pre)
         {
             InitializeComponent();
             mostrarestilistas();
@@ -51,9 +56,17 @@ namespace NailBars.Vistas
             idUser = idUsuario;
             llenarArrglo();
             infoUser = dat;
+            precio = pre;
+            txtPrecio.Text = precio;
+            if(dat.tipoUser == "Cliente")
+            {
+                txtPrecio.IsEnabled=false;
+            }else if (dat.tipoUser == "admin")
+            {
+                txtPrecio.IsEnabled = true;
+            }
 
         }
-
 
         private async Task mostrarestilistas()
         {
@@ -192,6 +205,7 @@ namespace NailBars.Vistas
                                                     reservacion.tipo_Reserv = tipoReservacion;
                                                     reservacion.fecha_Reserv = fecReservacion1;
                                                     reservacion.hora_Reserv = horaReserv;
+                                                    reservacion.precio = precio;
                                                     reservacion.status = "Pendiente";
                                                     reservacion.calificacion = 0;
 

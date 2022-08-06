@@ -107,17 +107,33 @@ namespace NailBars.Vistas.Configuraciones
 
                 lstReserUser.ItemsSource = await consulta2.getResrOfDate(fec, "Pendiente");
                 lstGeneral.ItemsSource = await consulta.getReservaciones(parametro1);
+                //lista2 = await consulta.getReservaciones(parametro1);
 
             }
 
 
         }
 
-        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        private async void lstGeneral_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (tipo == "admin")
+            {
+                string selection = await DisplayActionSheet("¿Que desea hacer?",null,null,"Eliminar","Dar de Alta","Actualizar");
+            }else if(tipo == "Cliente") 
+            {
+                string selection = await DisplayActionSheet("¿Que desea hacer?", null, null,"Calificar");
+                if (selection == "Calificar"){
+                    Navigation.PushAsync(new Calificar());
+                }
+            }
 
-
-
+           
         }
+        /* List<MoReservaciones> lista2 = new List<MoReservaciones>();
+private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+{
+    var burqueda = lista2.Where(a => a.nombre_usuario.StartsWith(e.NewTextValue));
+    lstGeneral.ItemsSource = burqueda;
+}*/
     }
 }

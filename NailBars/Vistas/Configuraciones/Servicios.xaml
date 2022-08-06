@@ -4,14 +4,14 @@
              x:Class="NailBars.Vistas.Configuraciones.Servicios">
     <Grid BackgroundColor="#E2F5FF">
         <CollectionView x:Name="lstGeneral"
-                        >
+                        SelectionMode="Single"
+                        SelectionChanged="lstGeneral_SelectionChanged">
             <CollectionView.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
                         <RowDefinition Height="40" />
                         <RowDefinition Height="190" />
-                        <RowDefinition Height="40" />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
@@ -150,17 +150,13 @@
                            TextColor="Black"
                            FontAttributes="Bold"
                            Margin="10,0,0,0" />
-                    <Frame Grid.Row="4"
-                           Margin="10,10"
-                           HasShadow="False"
-                           CornerRadius="10"
-                           >
-                        <SearchBar Placeholder="Buscar" 
-                                   Keyboard="Chat" 
-                                   TextChanged="SearchBar_TextChanged" 
-                                   MaxLength="20" />
-                    </Frame>
-                    
+                    <!--
+                    <SearchBar Grid.Row="4"
+                               Placeholder="Buscar"
+                               Margin="10"
+                               TextChanged="SearchBar_TextChanged"
+                               MaxLength="20"
+                               x:Name="searchrBar" />-->
                 </Grid>
             </CollectionView.Header>
             <CollectionView.ItemsLayout>

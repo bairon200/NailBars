@@ -15,7 +15,11 @@
         </Picker>
         <DatePicker x:Name="fecReservacion"
                     DateSelected="fecReservacion_DateSelected"
-                    Focused="fecReservacion_Focused"></DatePicker>
+                    Focused="fecReservacion_Focused"
+                    >
+            
+        </DatePicker>
+        <Entry x:Name="txtPrecio" />
         <Button Text="Reservar" 
                 x:Name="btnhora"
                 Clicked="btnhora_Clicked"/>

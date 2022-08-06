@@ -26,6 +26,7 @@ namespace NailBars.VistasModelo
                       fecha_Reserv = reservacion.fecha_Reserv,
                       hora_Reserv = reservacion.hora_Reserv,
                       tipo_Reserv = reservacion.tipo_Reserv,
+                      precio = reservacion.precio,
                       status = reservacion.status,
                       calificacion = reservacion.calificacion
 
@@ -47,6 +48,7 @@ namespace NailBars.VistasModelo
                 MoReservaciones pila = new MoReservaciones();
                 pila.id_Reserv = rdr.Key;
                 pila.nombreEstilista = rdr.Object.nombreEstilista;
+                pila.precio = rdr.Object.precio;
                 pila.fecha_Reserv = rdr.Object.fecha_Reserv;
                 pila.nombre_usuario = rdr.Object.nombre_usuario;
                 pila.hora_Reserv = rdr.Object.hora_Reserv;
@@ -76,6 +78,7 @@ namespace NailBars.VistasModelo
                 pila.fecha_Reserv = rdr.Object.fecha_Reserv;
                 pila.hora_Reserv = rdr.Object.hora_Reserv;
                 pila.status = rdr.Object.status;
+                pila.precio = rdr.Object.precio;
                 pila.tipo_Reserv = rdr.Object.tipo_Reserv;
                 pila.calificacion = rdr.Object.calificacion;
 
@@ -118,6 +121,7 @@ namespace NailBars.VistasModelo
             {
                 obtenerhoras.id_Cliente = rdr.Object.id_Cliente;
                 obtenerhoras.hora_Reserv = rdr.Object.hora_Reserv;
+                obtenerhoras.precio = rdr.Object.precio;
                 obtenerhoras.fecha_Reserv = rdr.Object.fecha_Reserv;
                 obtenerhoras.nombreEstilista = rdr.Object.nombreEstilista;
                 obtenerhoras.status = rdr.Object.status;
@@ -143,6 +147,7 @@ namespace NailBars.VistasModelo
 
                     id_Cliente = parametros.id_Cliente,
                     status = parametros.status,
+                    precio = parametros.precio,
                     nombre_usuario = parametros.nombre_usuario,
                     nombreEstilista = parametros.nombreEstilista,
                     tipo_Reserv = parametros.tipo_Reserv,
@@ -171,6 +176,7 @@ namespace NailBars.VistasModelo
                 reser.fecha_Reserv = rdr.Object.fecha_Reserv;
                 reser.calificacion = rdr.Object.calificacion;
                 reser.status = rdr.Object.status;
+                reser.precio = rdr.Object.precio;
                 reser.tipo_Reserv = rdr.Object.tipo_Reserv;
 
                 Reservaciones.Add(reser);
@@ -197,6 +203,7 @@ namespace NailBars.VistasModelo
                 ope.fecha_Reserv = rdr.Object.fecha_Reserv;
                 ope.calificacion = rdr.Object.calificacion;
                 ope.status = rdr.Object.status;
+                ope.precio = rdr.Object.precio;
                 ope.tipo_Reserv = rdr.Object.tipo_Reserv;
 
                 Reservaciones.Add(ope);

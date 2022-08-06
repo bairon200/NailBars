@@ -14,6 +14,7 @@ namespace NailBars.Modelo
         public string fecha_Reserv { get; set; }
         public string hora_Reserv { get; set; }
         public string tipo_Reserv { get; set; }
+        public string precio { get; set; }
         public string status { get; set; }
         public int calificacion { get; set; }
 

@@ -17,6 +17,8 @@ namespace NailBars.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Rg.Plugins.Popup.Popup.Init(this);
+            Messier16.Forms.Android.Controls.Messier16Controls.InitAll();
             UserDialogs.Init(this);
             LoadApplication(new App());
         }

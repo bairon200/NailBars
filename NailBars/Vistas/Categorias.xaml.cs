@@ -84,22 +84,22 @@ namespace NailBars.Vistas
 
         private async void btnPedicure_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new VistaReservaciones(IdusuarioUser, "Pedicure", datUser));
+            await Navigation.PushAsync(new VistaReservaciones(IdusuarioUser, "Pedicure", datUser, "150"));
         }
 
         private async void btnManicure_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new VistaReservaciones(IdusuarioUser, "Manicure", datUser));
+            await Navigation.PushAsync(new VistaReservaciones(IdusuarioUser, "Manicure", datUser,"130"));
         }
 
         private async void btnAplicaciondeAcrilico_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new VistaReservaciones(IdusuarioUser, "AplicaciondeAcrilico", datUser));
+            await Navigation.PushAsync(new VistaReservaciones(IdusuarioUser, "AplicaciondeAcrilico", datUser,"200"));
         }
 
         private async void btnRetoquedeAcrilico_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new VistaReservaciones(IdusuarioUser, "PintadoYDecoracion", datUser));
+            await Navigation.PushAsync(new VistaReservaciones(IdusuarioUser, "PintadoYDecoracion", datUser,"300"));
         }
 
 
