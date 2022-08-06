@@ -1,4 +1,5 @@
-﻿using Firebase.Auth;
+﻿using Acr.UserDialogs;
+using Firebase.Auth;
 using NailBars.Modelo;
 using NailBars.Servicios;
 using NailBars.VistasModelo;
@@ -24,38 +25,44 @@ namespace NailBars.Vistas
         public RegistroClientes()
         {
             InitializeComponent();
+           // Cerrarsesion();
         }
 
         MediaFile file;
         
         string rutafoto;
         string Idusuario;
-        string estado;
-        string EstadoImagen;
+        string Iduserclientes;
+        string hola;
+          
 
         private async void btnCrearcuenta_Clicked(object sender, EventArgs e)
         {
-            if (EstadoImagen != "usuario.png")
+            if (file != null)
             {
                 if (!string.IsNullOrEmpty(txtNombres.Text))
                 {
                     if (!string.IsNullOrEmpty(txtCorreo.Text))
                     {
-                        if (!string.IsNullOrEmpty(txtContraseña.Text))
-                        {                         
+                        hola = txtContraseña.Text;
+                        if (!string.IsNullOrEmpty(txtContraseña.Text) && hola.Length > 6)
+                        {
 
-                            await InsertarUsuarios();
+                            UserDialogs.Instance.ShowLoading("Creando Usuario...");
+
+                            await Crearcuenta();
+                            await IniciarSesion();
+                            await ObtenerIdusuario();
+
                             await SubirImagenesStore();
-                            await EditarFoto();
+                            await InsertarUsuarios();
 
+                                                       // await EditarFoto();
 
-                            Crearcienta();
-                            IniciarSesion();
-                            // ObtenerIdusuario();
                         }
                         else
                         {
-                            await DisplayAlert("Campos Vacios", "LLenar los campos", "Ok");
+                            await DisplayAlert("Contraseña", "Dede de tener almenos 7 caracteres", "Ok");
                         }
                     }
                     else
@@ -78,11 +85,11 @@ namespace NailBars.Vistas
 
             }
 
-    
-
-
         private async void btnagregarimagen_Clicked(object sender, EventArgs e)
         {
+            animation.IsVisible = false;
+            imagenCelular.IsVisible = true;
+
             await CrossMedia.Current.Initialize();
             try
             {
@@ -93,7 +100,7 @@ namespace NailBars.Vistas
                 });
                 if (file == null)
                 {
-                    EstadoImagen = "usuario.png";
+                   
                     return;
                 }
                 else
@@ -105,7 +112,7 @@ namespace NailBars.Vistas
 
                         return rutaImagen;
                     });
-                    EstadoImagen = "LLENO";
+                   
                 }
 
             }
@@ -119,6 +126,34 @@ namespace NailBars.Vistas
         {
             VMusuarios funcion = new VMusuarios();
             rutafoto = await funcion.SubirImagenesStorage(file.GetStream(), Idusuario);
+
+            
+
+        }
+
+
+
+
+
+
+        private async Task InsertarUsuarios()
+        {
+            
+            VMusuarios funcion = new VMusuarios();
+            MusuariosClientes parametros = new MusuariosClientes();
+
+
+            parametros.Nombres = txtNombres.Text;
+            parametros.IdUsuariosClientes = "-";
+            parametros.Correo = txtCorreo.Text;
+            parametros.Pass = txtContraseña.Text;
+            parametros.Icono = rutafoto;
+            parametros.tipoUser = "Cliente";
+            parametros.Id_usuario = Idusuario;
+
+            Iduserclientes = await funcion.insertar_usuario(parametros);
+
+            EditarFoto();
         }
 
         private async Task EditarFoto()
@@ -126,55 +161,51 @@ namespace NailBars.Vistas
             VMusuarios funcion = new VMusuarios();
             MusuariosClientes parametros = new MusuariosClientes();
 
-            parametros.Nombres = txtNombres.Text;          
+            parametros.IdUsuariosClientes = Iduserclientes;
+            parametros.Nombres = txtNombres.Text;
             parametros.Correo = txtCorreo.Text;
             parametros.Pass = txtContraseña.Text;
             parametros.Icono = rutafoto;
+            parametros.tipoUser = "Cliente";
             parametros.Id_usuario = Idusuario;
 
             await funcion.EditarFoto(parametros);
-            await DisplayAlert("Listo", "Usuario Agregado", "OK");
+            UserDialogs.Instance.HideLoading();
+            Cerrarsesion();
+            await DisplayAlert("Listo", "Vuelva abrir la aplicaion", "OK");
+
+            //Cerrar la app
+            Process.GetCurrentProcess().CloseMainWindow();
+
 
 
         }
 
-        private async Task InsertarUsuarios()
+
+
+
+
+        private void Cerrarsesion()
         {
-
-            VMusuarios funcion = new VMusuarios();
-
-            MusuariosClientes parametros = new MusuariosClientes();
-
-            parametros.Nombres = txtNombres.Text;          
-            parametros.Correo = txtCorreo.Text;
-            parametros.Pass = txtContraseña.Text;
-            parametros.Icono = "-";
-
-            Idusuario = await funcion.insertar_usuario(parametros);
-         
-
-
-
+            Preferences.Remove("MyFirebaseRefreshToken");
         }
 
-
-        private void Crearcienta()
+        private async Task Crearcuenta()
         {
             var funcion = new VMcrearcuenta();
-            funcion.crearcuenta(txtCorreo.Text, txtContraseña.Text);
+           await funcion.crearcuenta(txtCorreo.Text, txtContraseña.Text);
         }
 
-        private void IniciarSesion()
+        private async Task IniciarSesion()
         {
             var funcion = new VMcrearcuenta();
-            funcion.crearcuenta(txtCorreo.Text, txtContraseña.Text);
+            await funcion.ValidarCuenta(txtCorreo.Text, txtContraseña.Text);
         }
 
-        private async void ObtenerIdusuario()
+        private async Task ObtenerIdusuario()
         {
             try
             {
-
                 var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Conexionfirebase.WebapyFirebase));
 
                 //validar si el usuario se ha validado o no dentro de la aplicacion
@@ -185,16 +216,15 @@ namespace NailBars.Vistas
                 //el ID
                 Idusuario = guardarId.User.LocalId;
 
-
-
+               
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                await DisplayAlert("Alerta", "Sesion expirada", "OK");
-
+                await DisplayAlert("Alerta","Sesion expirada","OK");
             }
 
+            
 
         }
 

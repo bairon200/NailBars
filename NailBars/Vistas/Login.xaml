@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:forms1="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             NavigationPage.HasNavigationBar="False"
              x:Class="NailBars.Vistas.Login">
     
     <Grid BackgroundColor="Black">
@@ -37,7 +38,7 @@
                     <Image WidthRequest="35"
                            Source="https://i.ibb.co/RbCdzJc/add-user.png" />
                     <Entry Placeholder="Correo"
-                           x:Name="UsuerLogin"
+                           x:Name="txtUsuercorreo"
                            PlaceholderColor="#7F7F7F"
                            TextColor="White"
                            FontAttributes="Bold"
@@ -47,7 +48,7 @@
                     <Image WidthRequest="35"
                            Source="https://i.ibb.co/ZL1kyQr/padlock.png" />
                     <Entry Placeholder="Contraseña"
-                           x:Name="UserPassword"
+                           x:Name="txtUserPassword"
                            IsPassword="True"
                            PlaceholderColor="#7F7F7F"
                            TextColor="White"
@@ -56,12 +57,13 @@
                 </StackLayout>
                 <Button Text="Iniciar" 
                         TextColor="Black"
-                        BackgroundColor="#3A407A"
+                        BackgroundColor="#FFFFFF"
                         Margin="0,30,0,0"
                         FontSize="16"
                         FontAttributes="Bold"
                         CornerRadius="30"
                         x:Name="btniniciar"
+                        Clicked="btniniciar_Clicked"
                        />
                 <Button Text="Crear Cuenta"
                         TextColor="White"
@@ -70,7 +72,7 @@
                         FontAttributes="Bold"
                         TextTransform="None"
                         x:Name="btncrearUser"
-                        Clicked="btncrearUser_Clicked_1"/>
+                        Clicked="btncrearUser_Clicked"/>
             </StackLayout>
             <StackLayout HorizontalOptions="Center"
                          Grid.Row="2"

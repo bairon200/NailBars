@@ -2,22 +2,56 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NailBars.Vistas.RegistroClientes"
+             xmlns:forms1="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             xmlns:circularImage="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              NavigationPage.HasNavigationBar="False"
              Visual="Material">
     
     
-    <Grid BackgroundColor="Black">
+    <Grid BackgroundColor="Black" 
+          >
         <Grid.RowDefinitions>
             <RowDefinition Height="240" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Image Source="usuario.png"
-               Margin="0,20,0,0"
-               Grid.Row="0"
-               x:Name="imagenCelular"/>
-        <StackLayout Grid.Row="1"
+        <StackLayout Grid.Row="0"
                      Margin="20"
-                     Orientation="Vertical">
+                     Orientation="Vertical"
+                     Spacing="10">
+            
+             <Label Text="Perfil de Usuario"
+               TextColor="White"
+               HorizontalOptions="Center"
+               FontAttributes="Bold"
+               FontSize="30" />
+            
+        <forms1:AnimationView x:Name="animation"
+                              Grid.Row="0"
+                              Animation="foto perfil.json"
+                              HeightRequest="300"
+                              WidthRequest="300"
+                              AutoPlay="True"
+                              RepeatMode="Infinite"
+                              VerticalOptions="Center"                             
+                              IsVisible="true"/>
+       
+            <circularImage:CircleImage 
+                                       HeightRequest="300"
+                                       WidthRequest="300"
+                                       HorizontalOptions="Start"
+                                       BorderThickness="4"
+                                       Margin="34,20,0,0"
+                                       BorderColor="#FFFFFF"
+                                       x:Name="imagenCelular"
+                                       IsVisible="false" />
+        </StackLayout>
+           
+        
+        <StackLayout Grid.Row="1"
+                     Margin="20,150,20,0"
+                     Orientation="Vertical"
+                     Spacing="10"
+                     >
             <StackLayout Orientation="Horizontal" HeightRequest="50">
                 <Button Text="Subir Foto"
                         BackgroundColor="#31C3A2"
@@ -30,24 +64,36 @@
                    FontAttributes="Bold"
                    PlaceholderColor="Black"
                    Placeholder="Nombres" 
+                   Keyboard="Chat"
+                   IsTextPredictionEnabled="True"
                    x:Name="txtNombres"/>
+            
             <Entry TextColor="#7F7F7F"
                    FontAttributes="Bold"
                    PlaceholderColor="Black"
                    Placeholder="Correo"
-                   x:Name="txtCorreo"/>
+                   x:Name="txtCorreo"
+                   Keyboard="Email"
+                   IsTextPredictionEnabled="True"
+                   />
             <Entry TextColor="#7F7F7F"
                    FontAttributes="Bold"
                    PlaceholderColor="Black"
                    Placeholder="Contraseña"
-                   x:Name="txtContraseña" />
+                   x:Name="txtContraseña"
+                   IsPassword="True"
+                   IsTextPredictionEnabled="True">
+                
+            </Entry>
             <Button Text="Crear Cuenta"
                     BackgroundColor="White"
-                    TextColor="Black"
-                    CornerRadius="10"
-                    WidthRequest="250"
+                    TextColor="Black"                 
+                    CornerRadius="30"
+                    WidthRequest="340"
+                    HeightRequest="50"
                     HorizontalOptions="Center"
                     x:Name="btnCrearcuenta"
+                    Margin="20"
                     Clicked="btnCrearcuenta_Clicked"/>
         </StackLayout>
         

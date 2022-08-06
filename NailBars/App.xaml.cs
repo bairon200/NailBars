@@ -2,6 +2,8 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NailBars.Vistas;
+using NailBars.Vistas.Configuraciones;
+
 
 namespace NailBars
 {
@@ -11,7 +13,7 @@ namespace NailBars
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new Login());
+            MainPage = new Presentacion();
         }
 
         protected override void OnStart()

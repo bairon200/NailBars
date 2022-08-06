@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NailBars.Vistas.VistaReservaciones">
+    
+    <StackLayout>
+        <Picker Title="Selecciones Estilista"
+                TitleColor="orange"
+                x:Name="PickEstilista"
+                ItemsSource="{Binding Trabajadores}"
+                SelectedIndexChanged="PickEstilista_SelectedIndexChanged"
+                ItemDisplayBinding="{Binding nombre}"
+                SelectedItem="{Binding nombre}">
+                
+        </Picker>
+        <DatePicker x:Name="fecReservacion"
+                    DateSelected="fecReservacion_DateSelected"
+                    Focused="fecReservacion_Focused"></DatePicker>
+        <Button Text="Reservar" 
+                x:Name="btnhora"
+                Clicked="btnhora_Clicked"/>
+        <ListView x:Name="lstHorarios" 
+                  SeparatorColor="BlanchedAlmond"
+                  ItemSelected="lstHorarios_ItemSelected">
+          
+        </ListView>
+
+     
+    </StackLayout>
+   
+</ContentPage>

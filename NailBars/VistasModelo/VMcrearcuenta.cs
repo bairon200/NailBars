@@ -11,29 +11,28 @@ namespace NailBars.VistasModelo
 {
     public class VMcrearcuenta
     {
-       
 
-        public async void crearcuenta(string correo, string contraseña)
+        
+
+        public async Task crearcuenta(string correo, string contraseña)
         {
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Conexionfirebase.WebapyFirebase));
             await authProvider.CreateUserWithEmailAndPasswordAsync(correo, contraseña);
 
         }
 
-        public async void ValidarCuenta(string correo, string contraseña)
+        public async Task ValidarCuenta(string correo, string contraseña)
         {
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Conexionfirebase.WebapyFirebase));
-            var auth = await authProvider.SignInWithEmailAndPasswordAsync(correo, contraseña);
+                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Conexionfirebase.WebapyFirebase));
+                var auth = await authProvider.SignInWithEmailAndPasswordAsync(correo, contraseña);                 
+                var serializartoken= JsonConvert.SerializeObject(auth);
+                Preferences.Set("MyFirebaseRefreshToken",serializartoken);
 
-            var contenido = await auth.GetFreshAuthAsync(); 
-            var serializacion = JsonConvert.SerializeObject(contenido);
-
-            Preferences.Set("MyFirebaseRefreshToken", serializacion);
-
+               // await App.Current.MainPage.DisplayAlert("Conectado","Cuenta Aprobada","OK");
 
         }
 
-        
+       
 
     }
 }
