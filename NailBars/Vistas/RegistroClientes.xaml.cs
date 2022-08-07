@@ -34,6 +34,7 @@ namespace NailBars.Vistas
         string Idusuario;
         string Iduserclientes;
         string hola;
+        
           
 
         private async void btnCrearcuenta_Clicked(object sender, EventArgs e)

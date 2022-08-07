@@ -144,7 +144,6 @@ namespace NailBars.VistasModelo
                 .Child(obtenerData.Key)
                 .PutAsync(new MoReservaciones()
                 {
-
                     id_Cliente = parametros.id_Cliente,
                     status = parametros.status,
                     precio = parametros.precio,
@@ -168,7 +167,7 @@ namespace NailBars.VistasModelo
             foreach (var rdr in data)
             {
                 var reser = new MoReservaciones();
-
+                reser.id_Reserv = rdr.Key;
                 reser.id_Cliente = rdr.Object.id_Cliente;
                 reser.nombre_usuario = rdr.Object.nombre_usuario;
                 reser.nombreEstilista = rdr.Object.nombreEstilista;
@@ -196,6 +195,7 @@ namespace NailBars.VistasModelo
             {
 
                 var ope = new MoReservaciones();
+                ope.id_Reserv = rdr.Key;
                 ope.id_Cliente = rdr.Object.id_Cliente;
                 ope.nombre_usuario = rdr.Object.nombre_usuario;
                 ope.nombreEstilista = rdr.Object.nombreEstilista;
@@ -211,6 +211,18 @@ namespace NailBars.VistasModelo
             }
 
             return Reservaciones;
+        }
+
+        public async Task EditarReseña(Mresenias idReservacion)
+        {
+            var data = (await Conexionfirebase.firebase
+                .Child("Reservaciones")
+                .OnceAsync<MoReservaciones>()).Where(a => a.Key == idReservacion.idreservacion).FirstOrDefault();
+            data.Object.calificacion = int.Parse(idReservacion.calificacion);
+            await Conexionfirebase.firebase
+                .Child("Reservaciones")
+                .Child(data.Key)
+                .PutAsync(data.Object);
         }
 
     }

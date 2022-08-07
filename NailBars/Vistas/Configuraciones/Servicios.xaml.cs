@@ -12,6 +12,7 @@ using Xamarin.Forms.Xaml;
 using Newtonsoft.Json;
 using Firebase.Auth;
 using NailBars.Servicios;
+using Rg.Plugins.Popup.Services;
 
 namespace NailBars.Vistas.Configuraciones
 {
@@ -116,14 +117,27 @@ namespace NailBars.Vistas.Configuraciones
 
         private async void lstGeneral_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            MoReservaciones itemSelect = new MoReservaciones();
+
+            if (e.CurrentSelection != null && e.CurrentSelection.Count > 0)
+            {
+                itemSelect = e.CurrentSelection[0] as MoReservaciones;
+            }
+
             if (tipo == "admin")
             {
                 string selection = await DisplayActionSheet("¿Que desea hacer?",null,null,"Eliminar","Dar de Alta","Actualizar");
+                
+
+
             }else if(tipo == "Cliente") 
             {
+                
+
                 string selection = await DisplayActionSheet("¿Que desea hacer?", null, null,"Calificar");
                 if (selection == "Calificar"){
-                    Navigation.PushAsync(new Calificar());
+                   // await Navigation.PushAsync();
+                    await PopupNavigation.Instance.PushAsync(new Calificar(itemSelect));
                 }
             }
 

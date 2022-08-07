@@ -20,7 +20,9 @@ namespace NailBars.VistasModelo
                 {
                     calificacion = parametros.calificacion,                    
                     idusuario = parametros.idusuario,
-                    reseña = parametros.reseña
+                    reseña = parametros.reseña,
+                    idreservacion = parametros.idreservacion,
+                    
                 });
         }
         public async Task EditarReseña(Mresenias parametros)
@@ -35,6 +37,26 @@ namespace NailBars.VistasModelo
                 .Child(data.Key)
                 .PutAsync(data.Object);
         }
+
+
+        public async Task<List<Mresenias>> obtenerdatos (Mresenias parametrosPedir)
+        {
+            var Resenias = new List<Mresenias>();
+            var data = (await Conexionfirebase.firebase
+                .Child("Resenias")
+                .OrderByKey()
+                .OnceAsync<Mresenias>()).Where(a => a.Object.idreservacion == parametrosPedir.idreservacion);
+            foreach (var dt in data)
+            {
+                var parametros = new Mresenias();
+                parametros.reseña = dt.Object.reseña;
+                parametros.calificacion = dt.Object.calificacion;
+                parametros.idcalificacion = dt.Key;
+                Resenias.Add(parametros);
+            }
+            return Resenias;
+        }
+
 
     }
 }

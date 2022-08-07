@@ -44,7 +44,9 @@ namespace NailBars.Vistas
             mostrarestilistas();
 
             fecReservacion.Date = new DateTime(1900,1,1);
-           
+
+
+
         }
 
 
@@ -65,6 +67,9 @@ namespace NailBars.Vistas
             {
                 txtPrecio.IsEnabled = true;
             }
+
+
+            mostrarTipoReser();
 
         }
 
@@ -361,6 +366,27 @@ namespace NailBars.Vistas
                 await ObtenerDatoUsuario();
             }
         }
+
+        public void mostrarTipoReser()
+        {
+            if (tipoReservacion == "PintadoYDecoracion")
+            {
+                lblTipoReser.Text = "Servicio: Retoque de Acrilico";
+            }
+            else if (tipoReservacion == "AplicaciondeAcrilico")
+            {
+                lblTipoReser.Text = "Servicio: Aplicación de Acrilico";
+            }
+            else if (tipoReservacion == "Manicure")
+            {
+                lblTipoReser.Text = "Servicio: Manicure";
+            }
+            else if (tipoReservacion == "Pedicure")
+            {
+                lblTipoReser.Text = "Servicio: Pedicure";
+            }
+        }
+
     }
 
 }

@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:estrellas="clr-namespace:Messier16.Forms.Controls;assembly=Messier16.Forms.Controls"
              x:Class="NailBars.Vistas.Configuraciones.Servicios">
+    
     <Grid BackgroundColor="#E2F5FF">
         <CollectionView x:Name="lstGeneral"
                         SelectionMode="Single"
@@ -129,15 +131,7 @@
                                            
                                         </Grid>
                                     </Frame>
-                                    <StackLayout Grid.Row="1"
-                                                 Orientation="Horizontal"
-                                                 Margin="10,0,0,0">
-                                        <Image Source="https://i.ibb.co/9NBxhW5/dispon.png" />
-                                        <Label Text="{Binding contador}"
-                                               TextColor="Black"
-                                               FontSize="11"
-                                               VerticalTextAlignment="Center" />
-                                    </StackLayout>
+                                    
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -168,11 +162,11 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="20" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Frame Grid.Row="0"
                                BackgroundColor="#FFFFFF"
-                               Padding="10"
+                               Padding="0"
                                CornerRadius="8"
                                Margin="5,0,5,0">
                             <Grid>
@@ -277,18 +271,23 @@
                                         
                                     </Grid>
                                 </Frame>
-                               
+                                
+                                <Grid Grid.Row="0"
+                                      Padding="10,40,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <estrellas:RatingBar Grid.Column="0"
+                                                         FillColor="#FFFFFF"
+                                                         MaxRating="5"
+                                                         Rating="{Binding calificacion, Mode=Default}"
+                                                         IsEnabled="False" />
+                                </Grid>
                             </Grid>
+                       
                         </Frame>
-                        <StackLayout Grid.Row="1"
-                                     Orientation="Horizontal"
-                                     Margin="10,0,0,0">
-                            <Image Source="https://i.ibb.co/9NBxhW5/dispon.png" />
-                            <Label Text="{Binding contador}"
-                                   TextColor="Black"
-                                   FontSize="11"
-                                   VerticalTextAlignment="Center" />
-                        </StackLayout>
+                       
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

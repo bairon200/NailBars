@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:forms1="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
              NavigationPage.HasNavigationBar="False"
-             x:Class="NailBars.Vistas.Login">
+             Visual="Material"
+             x:Class="NailBars.Vistas.Login"
+              >
     
-    <Grid BackgroundColor="Black">
+    <Grid BackgroundColor="#E2F5FF">
         <Grid Margin="20,80,20,20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -28,7 +30,7 @@
                                       VerticalOptions="Center" />
                 <Label Grid.Row="1"
                        Text="NailBars"
-                       TextColor="White"
+                       TextColor="#5A0F2E"                     
                        HorizontalTextAlignment="Center"
                        FontSize="40"
                        FontAttributes="Bold" />
@@ -36,28 +38,30 @@
             <StackLayout Grid.Row="1">
                 <StackLayout Orientation="Horizontal">
                     <Image WidthRequest="35"
-                           Source="https://i.ibb.co/RbCdzJc/add-user.png" />
+                           Source="https://i.ibb.co/ZJ9W0SM/email.png" />
                     <Entry Placeholder="Correo"
+                           Keyboard="Email"
                            x:Name="txtUsuercorreo"
                            PlaceholderColor="#7F7F7F"
-                           TextColor="White"
+                           IsTextPredictionEnabled="True"
+                           TextColor="Black"
                            FontAttributes="Bold"
                            WidthRequest="400" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
                     <Image WidthRequest="35"
-                           Source="https://i.ibb.co/ZL1kyQr/padlock.png" />
+                           Source="https://i.ibb.co/L1MS01c/padlock.png" />
                     <Entry Placeholder="Contraseña"
                            x:Name="txtUserPassword"
                            IsPassword="True"
                            PlaceholderColor="#7F7F7F"
-                           TextColor="White"
+                           TextColor="Black"
                            FontAttributes="Bold"
                            WidthRequest="400" />
                 </StackLayout>
-                <Button Text="Iniciar" 
-                        TextColor="Black"
-                        BackgroundColor="#FFFFFF"
+                <Button Text="Iniciar"
+                        TextColor="#FFA67E"
+                        BackgroundColor="#5A0F2E"
                         Margin="0,30,0,0"
                         FontSize="16"
                         FontAttributes="Bold"
@@ -66,7 +70,7 @@
                         Clicked="btniniciar_Clicked"
                        />
                 <Button Text="Crear Cuenta"
-                        TextColor="White"
+                        TextColor="#5A0F2E"
                         BackgroundColor="Transparent"
                         FontSize="16"
                         FontAttributes="Bold"
@@ -74,17 +78,7 @@
                         x:Name="btncrearUser"
                         Clicked="btncrearUser_Clicked"/>
             </StackLayout>
-            <StackLayout HorizontalOptions="Center"
-                         Grid.Row="2"
-                         Margin="0,40,0,0"
-                         Orientation="Horizontal">
-                <Label Text="Una app de "
-                       HorizontalTextAlignment="Center"
-                       TextColor="#404040" />
-                <Label Text="NailBars"
-                       HorizontalTextAlignment="Center"
-                       TextColor="#3A407A" />
-            </StackLayout>
+          
         </Grid>
     </Grid>
 </ContentPage>
