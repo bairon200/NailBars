@@ -121,6 +121,7 @@ namespace NailBars.Vistas
             {
                 Debug.WriteLine(ex.Message);
             }
+
         }
 
         private async Task SubirImagenesStore()
@@ -131,11 +132,6 @@ namespace NailBars.Vistas
             
 
         }
-
-
-
-
-
 
         private async Task InsertarUsuarios()
         {
@@ -181,6 +177,12 @@ namespace NailBars.Vistas
 
 
         }
+
+
+
+
+
+
 
 
 

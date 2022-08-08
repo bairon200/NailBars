@@ -1,4 +1,5 @@
-﻿using Firebase.Auth;
+﻿using Acr.UserDialogs;
+using Firebase.Auth;
 using NailBars.Modelo;
 using NailBars.Servicios;
 using NailBars.VistasModelo;
@@ -25,7 +26,7 @@ namespace NailBars.Vistas
             InitializeComponent();
             ObtenerIdusuario();
 
-         
+
            
         }
 
@@ -34,7 +35,11 @@ namespace NailBars.Vistas
         string Iduserlogin;
         string pass;
         string IdUsuariosClientes;
-       
+        string estado="vacio";
+        string nombre;
+        string tipoUser;
+        string nombreEdit;
+
         /*
         
         string nombreEstilista;
@@ -45,8 +50,29 @@ namespace NailBars.Vistas
         string tipo_Reserv;*/
 
         private async void btnActualizar_Clicked(object sender, EventArgs e)
-        {  
-            await EditarFoto();
+        {
+            UserDialogs.Instance.ShowLoading("Procesando Solicitud...");
+
+            if (estado == "lleno" || nombre != txtNombres.Text) {
+
+                VMusuarios funcion2 = new VMusuarios();
+                MusuariosClientes parametros = new MusuariosClientes();
+                parametros.IdUsuariosClientes = IdUsuariosClientes;
+                var dt = await funcion2.ObtenerDatostipo(parametros);
+                foreach (var fila in dt)
+                {
+                    tipoUser = fila.tipoUser;
+                }
+
+                await EditarFoto();
+            }
+            else
+            {
+                await DisplayAlert("Aviso","No se encontro cambios","Ok");
+            }
+
+
+            UserDialogs.Instance.HideLoading();
         }
 
         private async void btnagregarimagen_Clicked(object sender, EventArgs e)
@@ -93,37 +119,61 @@ namespace NailBars.Vistas
         {
             VMusuarios funcion = new VMusuarios();
             rutafoto = await funcion.SubirImagenesStorage(file.GetStream(), Iduserlogin);
+
+            estado = "lleno";
+
         }
 
         private async Task EditarFoto()
         {
-            VMusuarios funcion = new VMusuarios();
-            MusuariosClientes parametros = new MusuariosClientes();
 
+            if (tipoUser == "Empleado")
+            {
 
-            parametros.IdUsuariosClientes = IdUsuariosClientes;
-            parametros.Id_usuario = Iduserlogin;
-            parametros.Pass = pass;
-            parametros.Nombres = txtNombres.Text;
-            parametros.Icono = rutafoto;
-            parametros.Correo = txtCorreo.Text;
-            parametros.tipoUser = "Cliente";
+            
+                VMusuarios funcion = new VMusuarios();
+                MusuariosClientes parametros = new MusuariosClientes();
 
+                parametros.IdUsuariosClientes = IdUsuariosClientes;
+                parametros.Id_usuario = Iduserlogin;
+                parametros.Pass = pass;
+                parametros.Nombres = txtNombres.Text;
+                parametros.Icono = rutafoto;
+                parametros.Correo = txtCorreo.Text;
+                parametros.tipoUser = tipoUser;
 
-           
-            await funcion.EditarFoto(parametros);
-            await ObtenerDatoReservacion();
+                await funcion.EditarFoto(parametros);
+                await ObtenerDatoReservacion();
+
+            }
+            else
+            {
+                VMusuarios funcion = new VMusuarios();
+                MusuariosClientes parametros = new MusuariosClientes();
+
+                parametros.IdUsuariosClientes = IdUsuariosClientes;
+                parametros.Id_usuario = Iduserlogin;
+                parametros.Pass = pass;
+                parametros.Nombres = txtNombres.Text;
+                parametros.Icono = rutafoto;
+                parametros.Correo = txtCorreo.Text;
+                parametros.tipoUser = tipoUser;
+
+                await funcion.EditarFoto(parametros);
+                await ObtenerDatoReservacion();
+            }
+
+            
 
 
             await DisplayAlert("Listo", "Datos Acualizados", "OK");
 
         }
 
-     
-
         private async Task ObtenerDatoReservacion()
         {
             VmReservaciones obtener2 = new VmReservaciones();
+            VmReservaciones consulta = new VmReservaciones();
             MoReservaciones parametros = new MoReservaciones();
             parametros.id_Cliente = Iduserlogin;
             parametros.nombre_usuario = txtNombres.Text;
@@ -131,31 +181,13 @@ namespace NailBars.Vistas
             var dt = await obtener2.ObtenerDatosReservaciones(parametros);
             foreach (var fila in dt)
             {
-                
-                
-                while ( contador < dt.Count)
-                {
 
-                    VmReservaciones obtener3 = new VmReservaciones();
-                    var parame = new MoReservaciones();
-
-                    if (dt[contador].nombre_usuario != txtNombres.Text) {
-                        parame.id_Cliente = Iduserlogin;
-                        parame.status = fila.status;
-                        parame.nombreEstilista = fila.nombreEstilista;
-                        parame.hora_Reserv = fila.hora_Reserv;
-                        parame.calificacion = fila.calificacion;
-                        parame.fecha_Reserv = fila.fecha_Reserv;
-                        parame.tipo_Reserv = fila.tipo_Reserv;
-                        parame.nombre_usuario = txtNombres.Text;
-
-                        await obtener3.Modificar(parame);
-                    }
-                    contador++;
-                }
-                
-
-                
+                MoReservaciones data  = new MoReservaciones();
+                data.id_Reserv = fila.id_Reserv;
+                data.id_Cliente = fila.id_Cliente;
+                data.nombre_usuario = txtNombres.Text;
+                await consulta.postUserReservacion(data);
+            
             }
 
         }
@@ -184,16 +216,15 @@ namespace NailBars.Vistas
             try
             {
                 var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Conexionfirebase.WebapyFirebase));
-
                 //validar si el usuario se ha validado o no dentro de la aplicacion
                 var guardarId = JsonConvert.DeserializeObject<FirebaseAuth>(Preferences.Get("MyFirebaseRefreshToken", ""));
-
-                var RefrescarContenido = await authProvider.RefreshAuthAsync(guardarId);
-                Preferences.Set("MyFirebaseRefreshToken", JsonConvert.SerializeObject(RefrescarContenido));
+                //var RefrescarContenido = await authProvider.RefreshAuthAsync(guardarId);
+                //Preferences.Set("MyFirebaseRefreshToken", JsonConvert.SerializeObject(RefrescarContenido));
                 //el ID
+
                 Iduserlogin = guardarId.User.LocalId;
 
-               await ObtenerDatoUsuario();
+                await ObtenerDatoUsuario();
             }
             catch (Exception)
             {
@@ -218,6 +249,7 @@ namespace NailBars.Vistas
                 pass = fila.Pass;
                 rutafoto = fila.Icono;
                 IdUsuariosClientes = fila.IdUsuariosClientes;
+                nombre = fila.Nombres;
             }
 
         }

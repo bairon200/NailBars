@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NailBars.Vistas.VistaReservaciones"
-             Visual="Material">
+             Visual="Material"
+             NavigationPage.HasNavigationBar="False">
     
     <StackLayout BackgroundColor="#e1f4ff"
                  Margin="10"
@@ -58,7 +59,7 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Frame Grid.Column="0"
@@ -81,10 +82,12 @@
                PlaceholderColor="#FFA67E"
                Placeholder="Precio"
                Keyboard="Chat" />
+        <Label Text="Horas Disponibles" />
         <ListView x:Name="lstHorarios"
                   BackgroundColor="#e1f4ff"
                   SeparatorColor="BlanchedAlmond"
                   ItemSelected="lstHorarios_ItemSelected"></ListView>
+        
         <Button Text="Reservar"
                 x:Name="btnhora"
                 BackgroundColor="#5a0e2e"

@@ -1,4 +1,5 @@
-﻿using Firebase.Auth;
+﻿using Acr.UserDialogs;
+using Firebase.Auth;
 using NailBars.Modelo;
 using NailBars.Servicios;
 using NailBars.VistasModelo;
@@ -18,7 +19,7 @@ namespace NailBars.Vistas
     public partial class Categorias : ContentPage
     {
 
-
+        string tipoUser;
         public Categorias()
         {
             InitializeComponent();
@@ -26,6 +27,7 @@ namespace NailBars.Vistas
 
         
         string IdusuarioUser;
+
         MusuariosClientes datUser = new MusuariosClientes();
 
 
@@ -36,12 +38,13 @@ namespace NailBars.Vistas
            // listaCategoriasNormal.ItemsSource = dt;
            
         }
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             mostrarCategorias();
-            ObtenerIdusuario();
+            await ObtenerIdusuario();
 
-         
+
+
         }
 
 
@@ -118,6 +121,13 @@ namespace NailBars.Vistas
                 datUser.IdUsuariosClientes = rdr.IdUsuariosClientes;
 
             }
+
+
+
+
+
+
+
         }
 
     }

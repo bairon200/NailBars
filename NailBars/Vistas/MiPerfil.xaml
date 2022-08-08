@@ -6,6 +6,7 @@
              x:Class="NailBars.Vistas.MiPerfil"
              Visual="Material"
              NavigationPage.HasNavigationBar="False">
+    
     <Grid BackgroundColor="#E2F5FF">
         <Grid.RowDefinitions>
             <RowDefinition Height="240" />
@@ -21,17 +22,19 @@
                    FontAttributes="Bold"
                    FontSize="30" />
             
-            <circularImage:CircleImage HeightRequest="300"
+            <circularImage:CircleImage 
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       HeightRequest="250"
                                        WidthRequest="300"
-                                       HorizontalOptions="Start"
                                        BorderThickness="4"
-                                       Margin="34,20,0,0"
+                                       Margin="20"
                                        BorderColor="#FFA67E"
                                        x:Name="imagenCelular"
                                         />
         </StackLayout>
         <StackLayout Grid.Row="1"
-                     Margin="20,150,20,0"
+                     Margin="20,120,20,0"
                      Orientation="Vertical"
                      Spacing="10">
             <StackLayout Orientation="Horizontal"

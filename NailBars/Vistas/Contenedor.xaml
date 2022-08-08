@@ -14,9 +14,9 @@
                        IconImageSource="home.png" />
     <local2:Servicios Title="Historial"
                       IconImageSource="servicios.png" />
-    <local1:MapsNormal Title="Mapa"
+    <local1:MapsNormal Title="Mapa"   
                        IconImageSource="mapa.png" />
-    <local1:MiPerfil Title="Mi Cuenta"
+    <local1:MiPerfil   Title="Mi Cuenta"               
                        IconImageSource="user.png" />
 
 </TabbedPage>

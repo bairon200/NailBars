@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Firebase.Auth;
 using NailBars.Servicios;
 using Rg.Plugins.Popup.Services;
+using Acr.UserDialogs;
 
 namespace NailBars.Vistas.Configuraciones
 {
@@ -20,6 +21,7 @@ namespace NailBars.Vistas.Configuraciones
     public partial class Servicios : ContentPage
     {
         string Idusuario;
+        string nombreestilista;
         string date;
         string tipo;
         MusuariosClientes datUser = new MusuariosClientes();
@@ -27,11 +29,19 @@ namespace NailBars.Vistas.Configuraciones
         {
             InitializeComponent();
             ObtenerIdusuario();
-           
+            validarTipoUser();
         }
 
+        
 
-   
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+           await validarTipoUser();
+
+  
+
+        }
 
 
         private async Task ObtenerIdusuario()
@@ -72,6 +82,7 @@ namespace NailBars.Vistas.Configuraciones
                 //var nombre = new MusuariosClientes();
 
                tipo = rdr.tipoUser;
+                nombreestilista = rdr.Nombres;
                // datUser.IdUsuariosClientes = rdr.IdUsuariosClientes;
 
             }
@@ -93,6 +104,11 @@ namespace NailBars.Vistas.Configuraciones
                 parametro2.fecha_Reserv = date;
 
                 lstReserUser.ItemsSource = await consulta2.ObtenerDatosHoy(parametro2);
+
+
+
+
+
             }
             else if (tipo == "admin")
             {
@@ -111,6 +127,26 @@ namespace NailBars.Vistas.Configuraciones
                 //lista2 = await consulta.getReservaciones(parametro1);
 
             }
+            else if (tipo == "Empleado")
+            {
+                encabezado1.Text = "Pendientes Hoy!!";
+
+
+                string fec = DateTime.Now.ToString("d/M/yyyy");
+
+                VmReservaciones consulta = new VmReservaciones();
+                VmReservaciones consulta2 = new VmReservaciones();
+                MoReservaciones parametro1 = new MoReservaciones();
+                parametro1.fecha_Reserv = fec;
+                parametro1.status = "Pendiente";
+                parametro1.nombreEstilista = nombreestilista;
+
+
+                lstReserUser.ItemsSource = await consulta2.getResevacionesEstilista(parametro1);
+                lstGeneral.ItemsSource = await consulta.getGeneralEstilista(parametro1);
+                //lista2 = await consulta.getReservaciones(parametro1);
+
+            }
 
 
         }
@@ -118,6 +154,7 @@ namespace NailBars.Vistas.Configuraciones
         private async void lstGeneral_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MoReservaciones itemSelect = new MoReservaciones();
+            VmReservaciones consulta = new VmReservaciones();
 
             if (e.CurrentSelection != null && e.CurrentSelection.Count > 0)
             {
@@ -126,23 +163,69 @@ namespace NailBars.Vistas.Configuraciones
 
             if (tipo == "admin")
             {
-                string selection = await DisplayActionSheet("¿Que desea hacer?",null,null,"Eliminar","Dar de Alta","Actualizar");
-                
-
-
-            }else if(tipo == "Cliente") 
-            {
-                
-
-                string selection = await DisplayActionSheet("¿Que desea hacer?", null, null,"Calificar");
-                if (selection == "Calificar"){
-                   // await Navigation.PushAsync();
-                    await PopupNavigation.Instance.PushAsync(new Calificar(itemSelect));
+                string selection = await DisplayActionSheet("¿Que desea hacer?",null,null,"Eliminar","Dar de Alta");
+                if(selection == "Dar de Alta")
+                {
+                    itemSelect.status = "Finalizada";
+                   await consulta.setEstatus(itemSelect);
+                    await validarTipoUser();
                 }
+               else if (selection == "Eliminar")
+                {
+
+                    VmReservaciones funcion = new VmReservaciones();
+                    MoReservaciones parametros = new MoReservaciones();
+                    parametros.id_Reserv = itemSelect.id_Reserv;
+                    await funcion.EliminarReservacion(parametros);
+                    await DisplayAlert("Aviso", "Reservacion Eliminada", "ok");
+                    await validarTipoUser();
+                }
+
+
+            }
+            else if(tipo == "Cliente") 
+            {
+                if (itemSelect.status == "Finalizada")
+                {
+
+                    string selection = await DisplayActionSheet("¿Que desea hacer?", null, null, "Calificar");
+
+                  
+
+                    if (selection == "Calificar")
+                    {
+                        // await Navigation.PushAsync();
+                        await PopupNavigation.Instance.PushAsync(new Calificar(itemSelect));
+                        await validarTipoUser();
+                    }
+
+                }
+                else if (itemSelect.status == "Pendiente")
+                {
+
+                    string selection = await DisplayActionSheet("¿Que desea hacer?", null, null, "Eliminar");
+                    
+                    if (selection == "Eliminar") {
+
+                        VmReservaciones funcion = new VmReservaciones();
+                        MoReservaciones parametros = new MoReservaciones();
+                        parametros.id_Reserv = itemSelect.id_Reserv;
+                        await funcion.EliminarReservacion(parametros);
+                        await DisplayAlert("Aviso","Reservacion Eliminada","ok");
+                       await validarTipoUser();
+                    }
+                    
+                }
+
+
             }
 
            
         }
+
+
+
+       
         /* List<MoReservaciones> lista2 = new List<MoReservaciones>();
 private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
 {

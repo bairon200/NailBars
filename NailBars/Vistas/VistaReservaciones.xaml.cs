@@ -90,20 +90,7 @@ namespace NailBars.Vistas
           
         }
 
-        private async Task InsertarTrabajador()
-        {
-
-            VMcategorias funcion = new VMcategorias();
-            Trabajadores parametros = new Trabajadores();
-
-
-            parametros.nombre = "Alejandra";
-         
-
-            await funcion.InsertarTrabajadoras(parametros);
-           
-
-        }
+ 
 
         private async void fecReservacion_DateSelected(object sender, DateChangedEventArgs e)
         {
@@ -112,11 +99,17 @@ namespace NailBars.Vistas
             // fecReservacion1 = DateTime.Now.ToString("d/M/yyyy");
             
             fecReservacion1 = String.Concat(e.NewDate.Day.ToString(),"/",e.NewDate.Month.ToString(),"/", e.NewDate.Year.ToString());
-            await DisplayAlert("Aviso",fecReservacion1,"Ok");
+            //await DisplayAlert("Aviso",fecReservacion1,"Ok");
 
+            if(nombreStilista != "-") 
+            {
+                await ObtenerDatoUsuario();
+                 await horariosEstilista();
+            }else
+            {
+                await DisplayAlert("Aviso","Seleccione un estilista para ver horarios disponibles", "Ok");
+            }
             
-            await ObtenerDatoUsuario();
-            await horariosEstilista();
 
                 //await DisplayAlert("Aviso","Selecione una fecha, para mostrar los horarios disponibles", "Ok");        
         }
@@ -250,7 +243,7 @@ namespace NailBars.Vistas
             try
             {
                 
-                var itemSelected = PickEstilista.Items[PickEstilista.SelectedIndex];
+                string itemSelected = PickEstilista.Items[PickEstilista.SelectedIndex];
                 nombreStilista = itemSelected;
               
                 if (fecReservacion1 != "" && fecReservacion1 != null) 
@@ -268,6 +261,7 @@ namespace NailBars.Vistas
         private async Task horariosEstilista()
         {
             lstHorarios.ItemsSource = horiosvacio;
+            llenarArrglo();
 
             int cot = 0;
             MoReservaciones horas = new MoReservaciones();
@@ -292,8 +286,7 @@ namespace NailBars.Vistas
             }
 
             lstHorarios.ItemsSource= horario;
-
-            llenarArrglo();
+            
         }
 
         private async Task llenarArrglo()
@@ -361,9 +354,12 @@ namespace NailBars.Vistas
         {
             if (fecReservacion1 == null)
             {
-                fecReservacion1 = DateTime.Now.ToString("d/M/yyyy");
-                await horariosEstilista();
-                await ObtenerDatoUsuario();
+                if (nombreStilista != "-") {
+                    fecReservacion1 = DateTime.Now.ToString("d/M/yyyy");
+                    await horariosEstilista();
+                    await ObtenerDatoUsuario();
+                }
+               
             }
         }
 

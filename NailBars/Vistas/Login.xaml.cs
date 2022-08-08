@@ -10,6 +10,10 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NailBars.VistasModelo;
+using NailBars.Modelo;
+using Firebase.Auth;
+using NailBars.Servicios;
+using Newtonsoft.Json;
 
 namespace NailBars.Vistas
 {
@@ -24,6 +28,8 @@ namespace NailBars.Vistas
 
         }
 
+        string tipoUser;
+        string Iduserlogin;
 
         private async void btncrearUser_Clicked(object sender, EventArgs e)
         {
@@ -58,14 +64,54 @@ namespace NailBars.Vistas
         {
             try
             {
-                var funcion = new VMcrearcuenta();
-                await funcion.ValidarCuenta(txtUsuercorreo.Text, txtUserPassword.Text);
+
+                VMusuarios funcion2 = new VMusuarios();
+                MusuariosClientes parametros = new MusuariosClientes();
+                parametros.Correo = txtUsuercorreo.Text;
+                var dt = await funcion2.ObtenerDatoscorreo1(parametros);
+                foreach (var fila in dt)
+                {
+                    tipoUser = fila.tipoUser;
+                }
+
+
+                if (tipoUser == "Cliente")
+                {
+
+                    var funcion = new VMcrearcuenta();
+                    await funcion.ValidarCuenta(txtUsuercorreo.Text, txtUserPassword.Text);
+
+                    
+
+                    //esto es pq se van a convertir las paginas de toolvar en navigationpage
+
+                    Application.Current.MainPage = new NavigationPage(new Contenedor());
+
+
+                }
+                else if (tipoUser == "admin")
+                {
+                    var funcion = new VMcrearcuenta();
+                    await funcion.ValidarCuenta(txtUsuercorreo.Text, txtUserPassword.Text);
+
+                    //esto es pq se van a convertir las paginas de toolvar en navigationpage
+
+                    Application.Current.MainPage = new NavigationPage(new ContenedorAdmin());
+
+                }
+                else if (tipoUser == "Empleado")
+                {
+                    var funcion = new VMcrearcuenta();
+                    await funcion.ValidarCuenta(txtUsuercorreo.Text, txtUserPassword.Text);
+
+                    //esto es pq se van a convertir las paginas de toolvar en navigationpage
+
+                    Application.Current.MainPage = new NavigationPage(new ContenedorEmpleado());
+
+                }
+
 
                 UserDialogs.Instance.HideLoading();
-
-                //esto es pq se van a convertir las paginas de toolvar en navigationpage
-                Application.Current.MainPage = new NavigationPage(new Contenedor());
-
             }
             catch (Exception)
             {
@@ -81,8 +127,33 @@ namespace NailBars.Vistas
 
         }
 
+        /*
+        private async Task ObtenerIdusuario()
+        {
+            try
+            {
+                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Conexionfirebase.WebapyFirebase));
+
+                //validar si el usuario se ha validado o no dentro de la aplicacion
+                var guardarId = JsonConvert.DeserializeObject<FirebaseAuth>(Preferences.Get("MyFirebaseRefreshToken", ""));
+
+                var RefrescarContenido = await authProvider.RefreshAuthAsync(guardarId);
+                Preferences.Set("MyFirebaseRefreshToken", JsonConvert.SerializeObject(RefrescarContenido));
+                //el ID
+                Iduserlogin = guardarId.User.LocalId;
+
+             await validarDatos();
+            }
+            catch (Exception)
+            {
+                
+                await DisplayAlert("Alerta", "Sesion expirada", "OK");
+            }
 
 
+        }
+
+        */
 
 
     }

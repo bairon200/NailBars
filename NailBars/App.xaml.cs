@@ -3,7 +3,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using NailBars.Vistas;
 using NailBars.Vistas.Configuraciones;
-
+using System.Collections.Generic;
+using Plugin.FirebasePushNotification;
 
 namespace NailBars
 {
@@ -14,7 +15,12 @@ namespace NailBars
             InitializeComponent();
 
             MainPage = new Presentacion();
+
+
         }
+
+
+
 
         protected override void OnStart()
         {
@@ -27,5 +33,10 @@ namespace NailBars
         protected override void OnResume()
         {
         }
+
+
+
+
+
     }
 }

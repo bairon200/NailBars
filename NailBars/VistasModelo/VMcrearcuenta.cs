@@ -12,14 +12,14 @@ namespace NailBars.VistasModelo
     public class VMcrearcuenta
     {
 
-        
-
         public async Task crearcuenta(string correo, string contraseña)
         {
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Conexionfirebase.WebapyFirebase));
             await authProvider.CreateUserWithEmailAndPasswordAsync(correo, contraseña);
 
         }
+
+
 
         public async Task ValidarCuenta(string correo, string contraseña)
         {

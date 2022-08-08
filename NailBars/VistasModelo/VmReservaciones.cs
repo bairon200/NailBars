@@ -159,6 +159,7 @@ namespace NailBars.VistasModelo
 
         public async Task<List<MoReservaciones>> ObtenerDatosReservaciones(MoReservaciones parametros)
         {
+            Reservaciones = new List<MoReservaciones>();
             var data = (await Conexionfirebase.firebase
                 .Child("Reservaciones")
                 .OrderByKey()
@@ -182,6 +183,20 @@ namespace NailBars.VistasModelo
 
             }
             return Reservaciones;
+
+        }
+
+        public async Task postUserReservacion(MoReservaciones datos)
+        {
+            var data = (await Conexionfirebase.firebase
+                    .Child("Reservaciones")
+                    .OnceAsync<MoReservaciones>()).Where(a => a.Key == datos.id_Reserv)
+                    .Where(a => a.Object.id_Cliente == datos.id_Cliente).FirstOrDefault();
+            data.Object.nombre_usuario = datos.nombre_usuario;
+            await Conexionfirebase.firebase
+                .Child("Reservaciones")
+                .Child(data.Key)
+                .PutAsync(data.Object);
         }
 
         public async Task<List<MoReservaciones>> ObtenerDatosHoy(MoReservaciones parametros)
@@ -225,5 +240,84 @@ namespace NailBars.VistasModelo
                 .PutAsync(data.Object);
         }
 
+        public async Task setEstatus(MoReservaciones idReservacion)
+        {
+            var data = (await Conexionfirebase.firebase
+                .Child("Reservaciones")
+                .OnceAsync<MoReservaciones>()).Where(a => a.Key == idReservacion.id_Reserv).FirstOrDefault();
+            data.Object.status = idReservacion.status;
+            await Conexionfirebase.firebase
+                .Child("Reservaciones")
+                .Child(data.Key)
+                .PutAsync(data.Object);
+        }
+
+        public async Task EliminarReservacion(MoReservaciones parametros)
+        {
+            var data = (await Conexionfirebase.firebase
+                .Child("Reservaciones")
+                .OnceAsync<MoReservaciones>()).Where((a) => a.Key == parametros.id_Reserv).FirstOrDefault();
+            //eliminar
+            await Conexionfirebase.firebase.Child("Reservaciones").Child(data.Key).DeleteAsync();
+        }
+
+
+        public async Task<List<MoReservaciones>> getResevacionesEstilista(MoReservaciones parametros)
+        {
+            var data = (await Conexionfirebase.firebase
+                .Child("Reservaciones")
+                .OrderByKey()
+                .OnceAsync<MoReservaciones>()).Where(a => a.Object.nombreEstilista == parametros.nombreEstilista)
+                .Where(b => b.Object.fecha_Reserv == parametros.fecha_Reserv)
+                .Where(c => c.Object.status == parametros.status);
+            foreach (var rdr in data)
+            {
+
+                var ope = new MoReservaciones();
+                ope.id_Reserv = rdr.Key;
+                ope.id_Cliente = rdr.Object.id_Cliente;
+                ope.nombre_usuario = rdr.Object.nombre_usuario;
+                ope.nombreEstilista = rdr.Object.nombreEstilista;
+                ope.hora_Reserv = rdr.Object.hora_Reserv;
+                ope.fecha_Reserv = rdr.Object.fecha_Reserv;
+                ope.calificacion = rdr.Object.calificacion;
+                ope.status = rdr.Object.status;
+                ope.precio = rdr.Object.precio;
+                ope.tipo_Reserv = rdr.Object.tipo_Reserv;
+
+                Reservaciones.Add(ope);
+
+            }
+
+            return Reservaciones;
+        }
+
+
+        public async Task<List<MoReservaciones>> getGeneralEstilista(MoReservaciones parametros)
+        {
+            var data = (await Conexionfirebase.firebase
+                .Child("Reservaciones")
+                .OrderByKey()
+                .OnceAsync<MoReservaciones>()).Where(a => a.Object.nombreEstilista == parametros.nombreEstilista);
+            foreach (var rdr in data)
+            {
+                var ope = new MoReservaciones();
+                ope.id_Reserv = rdr.Key;
+                ope.id_Cliente = rdr.Object.id_Cliente;
+                ope.nombre_usuario = rdr.Object.nombre_usuario;
+                ope.nombreEstilista = rdr.Object.nombreEstilista;
+                ope.hora_Reserv = rdr.Object.hora_Reserv;
+                ope.fecha_Reserv = rdr.Object.fecha_Reserv;
+                ope.calificacion = rdr.Object.calificacion;
+                ope.status = rdr.Object.status;
+                ope.precio = rdr.Object.precio;
+                ope.tipo_Reserv = rdr.Object.tipo_Reserv;
+
+                Reservaciones.Add(ope);
+
+            }
+
+            return Reservaciones;
+        }
     }
 }

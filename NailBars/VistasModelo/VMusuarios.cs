@@ -16,8 +16,10 @@ namespace NailBars.VistasModelo
     public class VMusuarios
     {
         List<MusuariosClientes> Usuarios = new List<MusuariosClientes>();
+        List<MusuariosClientes> Usuarios2 = new List<MusuariosClientes>();
+        List<Trabajadores> trabajadores = new List<Trabajadores>();
 
-       
+
 
 
         string rutafoto;
@@ -60,7 +62,6 @@ namespace NailBars.VistasModelo
                       Icono = parametros.Icono,
                       Correo = parametros.Correo,
                       tipoUser = parametros.tipoUser
-
 
                   });
 
@@ -113,6 +114,8 @@ namespace NailBars.VistasModelo
             //eliminar
             await Conexionfirebase.firebase.Child("UsuariosClientes").Child(data.Key).DeleteAsync();
         }
+
+
         //eliminar la img
         public async Task EliminarImagen(string nombre)
         {
@@ -122,7 +125,29 @@ namespace NailBars.VistasModelo
                 .DeleteAsync();
         }
 
+        public async Task SaveTrabajador(Trabajadores datos)
+        {
+            var data = await Conexionfirebase.firebase
+                  .Child("Trabajadores")
+                  .PostAsync(new Trabajadores()
+                  {
+                      nombre = datos.nombre,
 
+                  });
+
+        }
+
+        public async Task editarTrabajador(Trabajadores parametros)
+        {
+            var data = (await Conexionfirebase.firebase
+                 .Child("Trabajadores")
+                 .OnceAsync<Trabajadores>()).Where(a => a.Object.nombre == parametros.nombre).FirstOrDefault();
+            data.Object.nombre = parametros.nombre;
+            await Conexionfirebase.firebase
+                .Child("Trabajadores")
+                .Child(data.Key)
+                .PutAsync(data.Object);
+        }
 
 
         public async Task<List<MusuariosClientes>> ObtenerDatosUsuarios(MusuariosClientes parametros)
@@ -133,6 +158,7 @@ namespace NailBars.VistasModelo
                 .OnceAsync<MusuariosClientes>()).Where(a => a.Object.Id_usuario == parametros.Id_usuario);
             foreach (var rdr in data)
             {
+
                 parametros.Id_usuario = rdr.Object.Id_usuario;
                 parametros.Nombres = rdr.Object.Nombres;              
                 parametros.Pass = rdr.Object.Pass;
@@ -144,6 +170,60 @@ namespace NailBars.VistasModelo
             }
             return Usuarios;
         }
+
+        public async Task<List<MusuariosClientes>> ObtenerDatoscorreo(MusuariosClientes parametros)
+        {
+           
+            var data = (await Conexionfirebase.firebase
+                .Child("UsuariosClientes")
+                .OrderByKey()
+                .OnceAsync<MusuariosClientes>()).Where(a => a.Object.Id_usuario == parametros.Id_usuario);
+            foreach (var rdr in data)
+            {
+
+                parametros.tipoUser = rdr.Object.tipoUser;
+
+                Usuarios.Add(parametros);
+
+            }
+            return Usuarios;
+        }
+
+        public async Task<List<MusuariosClientes>> ObtenerDatoscorreo1(MusuariosClientes parametros)
+        {
+            var data = (await Conexionfirebase.firebase
+                .Child("UsuariosClientes")
+                .OrderByKey()
+                .OnceAsync<MusuariosClientes>()).Where(a => a.Object.Correo == parametros.Correo);
+            foreach (var rdr in data)
+            {
+
+                parametros.tipoUser = rdr.Object.tipoUser;
+
+                Usuarios.Add(parametros);
+
+            }
+            return Usuarios;
+        }
+
+        public async Task<List<MusuariosClientes>> ObtenerDatostipo(MusuariosClientes parametros)
+        {
+            var data = (await Conexionfirebase.firebase
+                .Child("UsuariosClientes")
+                .OrderByKey()
+                .OnceAsync<MusuariosClientes>()).Where(a => a.Object.IdUsuariosClientes == parametros.IdUsuariosClientes);
+            foreach (var rdr in data)
+            {
+
+                parametros.tipoUser = rdr.Object.tipoUser;
+
+                Usuarios.Add(parametros);
+
+            }
+            return Usuarios;
+        }
+
+
 
         public async Task<List<MusuariosClientes>> ObtenerDatosMiPerfil(MusuariosClientes parametros)
         {
@@ -217,6 +297,7 @@ namespace NailBars.VistasModelo
 
                 nombre.tipoUser = rdr.Object.tipoUser;
                 nombre.IdUsuariosClientes = rdr.Key;
+                nombre.Nombres = rdr.Object.Nombres;
 
                 Usuarios.Add(nombre);
 

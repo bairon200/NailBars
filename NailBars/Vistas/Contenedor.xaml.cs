@@ -18,6 +18,11 @@ namespace NailBars.Vistas
             InitializeComponent();
             //aqui es para especificar donde quiere que aparesca el menu arriba, abajo etc.
           On<Xamarin.Forms.PlatformConfiguration.Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
+
+          
+
+            
+
         }
     }
 }

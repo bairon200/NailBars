@@ -12,7 +12,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid VerticalOptions="Center"
                   Grid.Row="0">
@@ -23,8 +23,8 @@
                 <forms1:AnimationView x:Name="animation"
                                       Grid.Row="0"
                                       Animation="login2.json"
-                                      HeightRequest="350"
-                                      WidthRequest="350"
+                                      HeightRequest="270"
+                                      WidthRequest="300"
                                       AutoPlay="True"
                                       RepeatMode="Infinite"
                                       VerticalOptions="Center" />
@@ -39,14 +39,19 @@
                 <StackLayout Orientation="Horizontal">
                     <Image WidthRequest="35"
                            Source="https://i.ibb.co/ZJ9W0SM/email.png" />
-                    <Entry Placeholder="Correo"
-                           Keyboard="Email"
+                    
+                            <Entry Placeholder="Correo"
+                           Keyboard="Email"       
+                           HeightRequest="60" 
+                           WidthRequest="320"
                            x:Name="txtUsuercorreo"
                            PlaceholderColor="#7F7F7F"
                            IsTextPredictionEnabled="True"
                            TextColor="Black"
                            FontAttributes="Bold"
-                           WidthRequest="400" />
+                           HorizontalOptions="Center"/>
+                    
+                    
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
                     <Image WidthRequest="35"
@@ -54,15 +59,17 @@
                     <Entry Placeholder="Contraseña"
                            x:Name="txtUserPassword"
                            IsPassword="True"
+                           HeightRequest="60"
+                           WidthRequest="320"
                            PlaceholderColor="#7F7F7F"
                            TextColor="Black"
                            FontAttributes="Bold"
-                           WidthRequest="400" />
+                            />
                 </StackLayout>
                 <Button Text="Iniciar"
                         TextColor="#FFA67E"
                         BackgroundColor="#5A0F2E"
-                        Margin="0,30,0,0"
+                        Margin="0,30,0,10"
                         FontSize="16"
                         FontAttributes="Bold"
                         CornerRadius="30"
@@ -71,9 +78,11 @@
                        />
                 <Button Text="Crear Cuenta"
                         TextColor="#5A0F2E"
-                        BackgroundColor="Transparent"
+                        BackgroundColor="#E2F5FF"
                         FontSize="16"
-                        FontAttributes="Bold"
+                        BorderColor="#E2F5FF"  
+                        
+                        FontAttributes="Bold"                       
                         TextTransform="None"
                         x:Name="btncrearUser"
                         Clicked="btncrearUser_Clicked"/>

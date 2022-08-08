@@ -39,10 +39,18 @@ namespace NailBars.VistasModelo
                 .PostAsync(new Trabajadores()
                 {
                     nombre = parametros.nombre,
-                   
+                    Pass = parametros.Pass,
+                    Icono = parametros.Icono,
+                    Correo = parametros.Correo,
+                    tipoUser = parametros.tipoUser,
 
                 });
         }
+
+
+
+
+
 
         public async Task<List<Mcategorias>> MostrarCategoriasNormal()
         {

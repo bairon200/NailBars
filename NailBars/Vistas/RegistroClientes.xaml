@@ -6,6 +6,8 @@
              xmlns:circularImage="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              NavigationPage.HasNavigationBar="False"
              Visual="Material">
+    
+    
     <Grid BackgroundColor="#E2F5FF" 
           >
         <Grid.RowDefinitions>
